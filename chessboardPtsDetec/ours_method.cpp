@@ -1692,6 +1692,22 @@ void detectPts(std::vector<cv::Mat>& src, std::vector<cv::Point2f>& pts, std::ve
 	cv::Mat ptsImg_;
 	bitwise_or(lineH, lineV, ptsImg_);
 
+	cv::Mat imgSrc = cv::Mat(lineH.size(), CV_8UC3, cv::Scalar(255, 255, 255));
+	cv::Mat imgB = cv::Mat(lineH.size(), CV_8UC3, cv::Scalar(255, 0, 0));
+	cv::Mat imgR = cv::Mat(lineH.size(), CV_8UC3, cv::Scalar(0, 0, 255));
+
+	cv::Mat img1 = imgSrc.clone();
+	imgB.copyTo(img1, lineH);
+	cv::imwrite("lineH.jpg", img1);
+	cv::Mat img2 = imgSrc.clone();
+	imgR.copyTo(img2, lineV);
+	cv::imwrite("lineV.jpg", img2);
+	cv::Mat img3 = img1.clone();
+	imgR.copyTo(img3, lineV);
+	cv::imwrite("ptsImg_.jpg", img3);
+
+
+
 	int height = ptsImg.rows;
 	int width = ptsImg.cols;
 
@@ -2101,4 +2117,28 @@ bool ptsCalib_single2(std::string xmlFilePath, cv::Size& imgSize, douVecPt2f& pt
 	}
 
 	return(!(pts.empty() || ptsReal.empty() || pts.size() != ptsReal.size()));
+}
+
+void getVector(cv::Mat src, std::vector<cv::Point2d>& pts)
+{
+	if(!pts.empty())
+	{
+		pts.clear();
+	}
+
+	int height = src.rows;
+	int width = src.cols;
+	if (src.type() == CV_8UC1)
+	{
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				if (src.at<uchar>(j, i) == 255)
+				{
+					pts.push_back(cv::Point(j, i));
+				}
+			}
+		}
+	}
 }

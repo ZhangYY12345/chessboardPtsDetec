@@ -61,3 +61,5 @@ void detectPts2(std::vector<cv::Mat>& src, std::vector<cv::Point2f>& pts, std::v
 void loadXML_imgPath(std::string xmlPath, cv::Size& imgSize, std::map<RIGHT_COUNT_SIDE, std::vector<std::vector<std::string> > >& path_);
 bool ptsCalib_single2(std::string xmlFilePath, cv::Size& imgSize,
 	douVecPt2f& pts, douVecPt3f& ptsReal, double gridSize, int hNum, int vNum, cv::Mat mask = cv::Mat::Mat());
+
+void getVector(cv::Mat src, std::vector<cv::Point2d>& pts);
